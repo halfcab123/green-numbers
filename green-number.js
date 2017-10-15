@@ -1,90 +1,37 @@
-<html>
-<head>
-  <script src="bignumber.min.js"></script>
-  </head>
-  <body>
-  <h2 id="answer"></h2>
+const pTen = (n) =>{
+  return Math.pow(10,n) + 1
+}
 
-  <script>
-  BigNumber.config({ 
-    DECIMAL_PLACES: 10000,
-    EXPONENTIAL_AT: 10000	
-  })
-  
-const getGreen = (n) => {
-  if(n===1 || n==='1'){ return '1' }
-  console.log(`1st green = 1`)
-  if(n===2 || n==='2'){ return '5' }
-  console.log(`2nd green = 5`)
-  if(n===3 || n==='3'){ return '6' }
-  console.log(`3rd green = 6`)
-  
-  let count = 3
-  let greenArray = ['1','5']
-  let greenArray2 = ['6']
-  let currentGreen = new BigNumber('5')
-  let currentGreen2 = new BigNumber('6')
-  let ten = new BigNumber('10')
-  
-  for(var i = 1; i <= 1000000; i++){
-    let places = currentGreen.toString().split('').length
+const nextGreen = (n) =>{
+  n = n.toString()
+  for(var i=9; i>=0; i--){
     
-    let test = currentGreen.plus(new BigNumber(i).times(ten.toPower(places)))
-
-    if(testGreen(test)){
-      currentGreen = test
-      greenArray.push(currentGreen.toString())
+    if(i === 0){
+    	n = n.padStart(n.length+1,'0')
+      i = 10
+	  }
+    
+    let test = n.padStart(n.length+1,i.toString())
+    
+    if(Math.pow(parseInt(test),2).toString().endsWith(test)){
+      return test.toString()
       count++
-	  console.log(`${count}th green = ${currentGreen}`)
-      i = 0
-		if(count === n){
-			return currentGreen
-		} else {
-			for(var j = 1; j <= 1000000; j++){
-				places = currentGreen2.toString().split('').length
-			
-				test = currentGreen2.plus(new BigNumber(j).times(ten.toPower(places)))
-
-				if(testGreen(test)){
-				  currentGreen2 = test
-				  greenArray2.push(currentGreen2.toString())
-				  count++
-				  console.log(`${count}th green = ${currentGreen2}`)
-				  j = 1000000
-				  if(count === n){
-					return currentGreen2
-				  }
-				}
-
-			}
-	  
-		}
     }
-
   }
-  
-  
-  return greenArray
-  
 }
 
-const testGreen = (n) => {
-  
-  let n2 = (new BigNumber(n).times(n)).toString().split('').reverse()
-  n = n.toString().split('').reverse()
-   
-   let isGreen = true
-  
-  n.forEach((val,idx)=>{
-    if(val !== n2[idx]){
-      isGreen = false
-    }
-  })
-  return isGreen
+let n = 10
+let count = 3
+let next5 = '5'
+let next6,first,second
 
+while(count<n){
+next5 = nextGreen(next5)
+next6 = pTen( next5.toString().length ) - next5
+count+=2
+first = next5 < next6 ? next5 : next6
+second = next6 < next5 ? next5 : next6
+null
 }
 
-document.getElementById('answer').innerHTML = getGreen(3000)
-</script>
-</body>
-</html>
+if(n%2===0){ first } else { second }
